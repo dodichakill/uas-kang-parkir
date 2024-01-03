@@ -10,7 +10,7 @@
     $conn = new mysqli("dbparkir.my.id", "hanif", "123", "parkirin");
 
     if ($conn->connect_error) {
-        http_response_code(501);
+        http_response_code(500);
         die();
     }
 
@@ -39,6 +39,6 @@
         header("Content-Type: application/json");
         echo json_encode($data, JSON_PRETTY_PRINT);
     } else {
-        http_response_code(501);
+        http_response_code(500);
     }
 ?>
