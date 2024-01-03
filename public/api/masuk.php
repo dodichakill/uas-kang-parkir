@@ -1,4 +1,6 @@
 <?php
+    $input_data = json_decode(file_get_contents("php://input"), true);
+    
     if ($_SERVER["REQUEST_METHOD"] != "POST" || empty($input_data["username"]) || empty($input_data["password"])) {
         http_response_code(400);
         die();
@@ -6,7 +8,6 @@
     
     session_start();
 
-    $input_data = json_decode(file_get_contents("php://input"), true);
     $conn = new mysqli("dbparkir.my.id", "hanif", "123", "parkirin");
 
     if ($conn->connect_error) {
