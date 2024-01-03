@@ -24,7 +24,7 @@
         die();
     }
 
-    $uuid   = $_GET["uuid"];
+    $uuid   = $conn->real_escape_string($_GET["uuid"]);
     $sql    = "SELECT nama, level, gender, telp, alamat FROM pegawai WHERE uuid = '$uuid'";
     $result = $conn->query($sql);
     $data   = array();
