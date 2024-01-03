@@ -1,5 +1,5 @@
 <?php
-    if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    if ($_SERVER["REQUEST_METHOD"] != "POST" || empty($input_data["username"]) || empty($input_data["password"])) {
         http_response_code(400);
         die();
     }
@@ -11,11 +11,6 @@
 
     if ($conn->connect_error) {
         http_response_code(501);
-        die();
-    }
-
-    if (empty($input_data["username"]) || empty($input_data["password"])) {
-        http_response_code(400);
         die();
     }
 
