@@ -31,7 +31,7 @@
     if ($result) {
         while($row = $result->fetch_assoc()) {
             $data[] = array(
-                "id"    => $row["id"],
+                "id"    => intval($row["id"]),
                 "jenis" => $row["jenis"]
             );
         }
