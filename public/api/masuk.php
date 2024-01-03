@@ -1,4 +1,9 @@
 <?php
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        http_response_code(400);
+        die();
+    }
+    
     session_start();
 
     $input_data = json_decode(file_get_contents("php://input"), true);
