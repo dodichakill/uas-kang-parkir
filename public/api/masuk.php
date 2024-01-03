@@ -1,5 +1,5 @@
 <?php
-    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
         http_response_code(400);
         die();
     }
@@ -22,7 +22,7 @@
     $input_username = $conn->real_escape_string($input_data["username"]);
     $input_password = $conn->real_escape_string($input_data["password"]);
 
-    $sql = "SELECT uuid, level FROM pegawai WHERE id = '$input_username' AND sandi = MD5('$input_password')";
+    $sql = "SELECT uuid, level FROM pegawai WHERE id = "$input_username" AND sandi = MD5("$input_password")";
     $result = $conn->query($sql);
 
     if ($result) {
