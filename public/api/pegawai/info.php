@@ -10,7 +10,7 @@
     $conn = new mysqli("dbparkir.my.id", "hanif", "123", "parkirin");
 
     if ($conn->connect_error) {
-        http_response_code(501);
+        http_response_code(500);
         die();
     }
 
@@ -46,6 +46,6 @@
             http_response_code(404);
         }
     } else {
-        http_response_code(501);
+        http_response_code(500);
     }
 ?>
