@@ -116,7 +116,7 @@ function DataPegawaiView() {
             <p className="text-xl">Alamat</p>
             <textarea
               rows={5}
-              className="border-2 border-slate-200 w-72"
+              className="border-2 border-slate-200 w-72 py-2 px-3"
               value={employee.alamat || ""}
             />
           </div>
