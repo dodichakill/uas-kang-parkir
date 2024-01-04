@@ -56,6 +56,32 @@ function AkunPegawaiView() {
       .catch((err) => console.log(err));
   };
 
+  const handleDeleteData = async () => {
+    await axiosConfig
+      .delete("/pegawai/hapus.php?uuid=" + typeActive)
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleEditData = async () => {
+    await axiosConfig
+      .patch("/pegawai/edit.php?uuid=" + typeActive, {
+        username: employee.username,
+        password: employee.password,
+        nama: employee.nama,
+        gender: employee.gender,
+        no_telp: employee.telp,
+        alamat: employee.alamat,
+        level: employee.level,
+      })
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div>
       <h1 className="text-3xl flex gap-3 items-center font-bold text-slate-600 border-b-2 border-b-slate-400 pb-5">
@@ -178,11 +204,14 @@ function AkunPegawaiView() {
             >
               <FaSave />
             </button>
-            <button className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-blue-300 bg-blue-400 text-white ">
+            <button
+              className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-blue-300 bg-blue-400 text-white "
+              onClick={handleEditData}
+            >
               <FaRegEdit />
             </button>
             <button className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-red-300 bg-red-400 text-white ">
-              <FaTrashAlt />
+              <FaTrashAlt onClick={handleDeleteData} />
             </button>
           </div>
         </div>
