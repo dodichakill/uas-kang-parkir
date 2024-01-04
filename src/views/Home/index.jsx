@@ -4,7 +4,7 @@ import KendaraanMasukView from "./KendaraanMasukView";
 import { useSelector } from "react-redux";
 import KendaraanKeluarView from "./KendaraanKeluarView";
 import PengaturanTarifView from "./PengaturanTarifView";
-import DataPegawaiView from "./DataPegawaiView";
+import AkunPegawaiView from "./AkunPegawaiView";
 function Home() {
   const menuActive = useSelector((state) => state.menu.menuActive);
   return (
@@ -14,7 +14,7 @@ function Home() {
         {menuActive === "kendaraanMasuk" && <KendaraanMasukView />}
         {menuActive === "kendaraanKeluar" && <KendaraanKeluarView />}
         {menuActive === "tarif" && <PengaturanTarifView />}
-        {menuActive === "dataPegawai" && <DataPegawaiView />}
+        {menuActive === "dataPegawai" && <AkunPegawaiView />}
       </div>
     </div>
   );

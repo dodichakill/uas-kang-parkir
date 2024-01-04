@@ -1,10 +1,26 @@
 import React from "react";
 import imgLogin from "../../assets/images/login.jpeg";
-import { Button, Icon, Input, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FaIdCardClip } from "react-icons/fa6";
+import axios from "../../api/axiosConfig";
 
 function Login() {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const handleSubmit = async () => {
+    if (!username && !password) {
+      alert("Username dan Password harus diisi");
+    } else {
+      const response = await axios.post("/auth/masuk.php", {
+        username,
+        password,
+      });
+      console.log(response);
+    }
+  };
+
   return (
     <div className="w-full flex h-screen">
       <div className="w-1/2 bg-sky-600 flex justify-center items-center">
@@ -21,21 +37,28 @@ function Login() {
           </div>
 
           <div className="input-form gap-2 flex flex-col">
-            <TextField placeholder="Username" className="w-full" />
+            <TextField
+              placeholder="Username"
+              className="w-full"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+            />
             <div className="mb-3 mt-3">
               <TextField
                 placeholder="Password"
                 className="mt-5 w-full"
                 type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </div>
           </div>
-          <Link
-            to={"/"}
+          <button
+            onClick={handleSubmit}
             className="px-5 py-3 bg-blue-400 text-white rounded-lg mt-5 hover:bg-blue-500"
           >
             Login Sekarang
-          </Link>
+          </button>
         </div>
       </div>
     </div>

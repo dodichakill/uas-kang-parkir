@@ -12,6 +12,8 @@ const dummyData = [
     jenisKelamin: "laki-laki",
     noTelephone: "081234567890",
     alamat: "Jl. AR hakim no. 10, tegal",
+    password: "12345",
+    role: "admin",
   },
   {
     id: 2,
@@ -19,6 +21,8 @@ const dummyData = [
     jenisKelamin: "laki-laki",
     noTelephone: "081234567890",
     alamat: "Jl. AR hakim no. 10, tegal",
+    password: "12345",
+    role: "standard",
   },
   {
     id: 3,
@@ -26,6 +30,8 @@ const dummyData = [
     jenisKelamin: "laki-laki",
     noTelephone: "081234567890",
     alamat: "Jl. AR hakim no. 10, tegal",
+    password: "12345",
+    role: "standard",
   },
   {
     id: 4,
@@ -33,6 +39,8 @@ const dummyData = [
     jenisKelamin: "laki-laki",
     noTelephone: "081234567890",
     alamat: "Jl. AR hakim no. 10, tegal",
+    password: "12345",
+    role: "standard",
   },
   {
     id: 5,
@@ -40,6 +48,8 @@ const dummyData = [
     jenisKelamin: "perempuan",
     noTelephone: "081234567890",
     alamat: "Jl. AR hakim no. 10, tegal",
+    password: "12345",
+    role: "standard",
   },
   {
     id: 6,
@@ -47,10 +57,12 @@ const dummyData = [
     jenisKelamin: "perempuan",
     noTelephone: "081234567890",
     alamat: "Jl. AR hakim no. 10, tegal",
+    password: "12345",
+    role: "standard",
   },
 ];
 
-function DataPegawaiView() {
+function AkunPegawaiView() {
   const [typeActive, setTypeActive] = React.useState("");
   const [jenisKelamin, setJenisKelamin] = React.useState("laki-laki");
   const [employee, setEmployee] = React.useState({});
@@ -61,12 +73,12 @@ function DataPegawaiView() {
   return (
     <div>
       <h1 className="text-3xl flex gap-3 items-center font-bold text-slate-600 border-b-2 border-b-slate-400 pb-5">
-        <MdAccountCircle /> Data Pegawai Parkir
+        <MdAccountCircle /> Akun Pegawai Parkir
       </h1>
       <div className="flex gap-28">
         <div className="type">
           <h2 className="text-2xl mt-10 text-slate-600 flex items-center gap-3 font-semibold mb-5">
-            Daftar Data Pegawai
+            Daftar Akun Pegawai
           </h2>
           <div className="type w-[18rem] flex flex-col items-start gap-2 p-5 border-2 ">
             {dummyData.map((data) => (
@@ -89,13 +101,36 @@ function DataPegawaiView() {
           <h2 className="text-2xl mt-10 text-slate-600 flex items-center gap-3 font-semibold mb-5">
             Informasi
           </h2>
-          <div className="flex w-[30rem] mb-3 items-center justify-between">
-            <p className="text-xl">Nama</p>
-            <TextField className="w-72" value={employee.name || ""} />
+          <div className="flex w-[32rem] mb-3 items-center justify-between">
+            <p className="text-xl">ID</p>
+            <TextField className="w-80" value={employee.id || ""} />
           </div>
-          <div className="flex w-[30rem] mb-3 items-center justify-between">
+          <div className="flex w-[32rem] mb-3 items-center justify-between">
+            <p className="text-xl">Sandi</p>
+            <TextField className="w-80" value={employee.password || ""} />
+          </div>
+          <div className="flex w-[32rem] mb-3 items-center justify-between">
+            <p className="text-xl">Level</p>
+            <div className="w-80">
+              <FormControl fullWidth>
+                <Select
+                  id="demo-simple-select"
+                  value={employee.role || ""}
+                  onChange={(e) => setJenisKelamin(e.target.value)}
+                >
+                  <MenuItem value={"standard"}>Standar</MenuItem>
+                  <MenuItem value={"admin"}>Admin</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+          <div className="flex w-[32rem] mb-3 items-center justify-between">
+            <p className="text-xl">Nama</p>
+            <TextField className="w-80" value={employee.name || ""} />
+          </div>
+          <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Jenis Kelamin</p>
-            <div className="w-72">
+            <div className="w-80">
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
@@ -108,15 +143,15 @@ function DataPegawaiView() {
               </FormControl>
             </div>
           </div>
-          <div className="flex w-[30rem] mb-3 items-center justify-between">
+          <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">No Telephone</p>
-            <TextField className="w-72" value={employee.noTelephone || ""} />
+            <TextField className="w-80" value={employee.noTelephone || ""} />
           </div>
-          <div className="flex w-[30rem] mb-3 items-center justify-between">
+          <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Alamat</p>
             <textarea
               rows={5}
-              className="border-2 border-slate-200 w-72 py-2 px-3"
+              className="border-2 border-slate-200 w-80 py-2 px-3"
               value={employee.alamat || ""}
             />
           </div>
@@ -137,4 +172,4 @@ function DataPegawaiView() {
   );
 }
 
-export default DataPegawaiView;
+export default AkunPegawaiView;
