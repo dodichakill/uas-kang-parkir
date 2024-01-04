@@ -5,10 +5,36 @@ import { MdAttachMoney, MdAccountCircle } from "react-icons/md";
 import { GiTicket } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { setMenuActive } from "../redux/menuSlice";
+import { useEffect } from "react";
+import axios from "../api/axiosConfig";
 
 function NavigationBar({}) {
+  const [level, setLevel] = React.useState("");
   const dispatch = useDispatch();
   const menuActive = useSelector((state) => state.menu.menuActive);
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios
+        .get("/auth/cek.php")
+        .then((res) => {
+          console.log(res);
+          setLevel(res.data.level);
+        })
+        .catch((err) => console.log(err));
+    };
+    getData();
+  });
+
+  const handleLogout = () => {
+    axios
+      .post("/auth/keluar.php")
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.replace("/login");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="w-96 p-5 bg-blue-400 h-screen flex justify-center items-center">
       <div className="">
@@ -31,25 +57,29 @@ function NavigationBar({}) {
             onClick={() => dispatch(setMenuActive("kendaraanKeluar"))}
           />
 
-          <BtnMenuNavbar
-            icon={<MdAttachMoney />}
-            text="Pengaturan Tarif"
-            isActive={menuActive === "tarif"}
-            onClick={() => dispatch(setMenuActive("tarif"))}
-          />
+          {level === "Admin" && (
+            <>
+              <BtnMenuNavbar
+                icon={<MdAttachMoney />}
+                text="Pengaturan Tarif"
+                isActive={menuActive === "tarif"}
+                onClick={() => dispatch(setMenuActive("tarif"))}
+              />
 
-          <BtnMenuNavbar
-            icon={<MdAccountCircle />}
-            text="Data Pegawai"
-            isActive={menuActive === "dataPegawai"}
-            onClick={() => dispatch(setMenuActive("dataPegawai"))}
-          />
+              <BtnMenuNavbar
+                icon={<MdAccountCircle />}
+                text="Data Pegawai"
+                isActive={menuActive === "dataPegawai"}
+                onClick={() => dispatch(setMenuActive("dataPegawai"))}
+              />
+            </>
+          )}
 
           <BtnMenuNavbar
             isLogout={true}
             icon={<IoPower />}
             text="Log out"
-            onClick={() => window.location.replace("/login")}
+            onClick={handleLogout}
           />
         </div>
       </div>
