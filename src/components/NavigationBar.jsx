@@ -14,10 +14,9 @@ function NavigationBar({}) {
   const menuActive = useSelector((state) => state.menu.menuActive);
   useEffect(() => {
     const getData = async () => {
-      const response = await axios
+      await axios
         .get("/auth/cek.php")
         .then((res) => {
-          console.log(res);
           setLevel(res.data.level);
         })
         .catch((err) => console.log(err));
