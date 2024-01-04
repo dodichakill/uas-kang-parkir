@@ -6,30 +6,6 @@ import { FaRegEdit } from "react-icons/fa";
 import { useEffect } from "react";
 import axiosConfig from "../../api/axiosConfig";
 
-const dummyData = [
-  {
-    id: 1,
-    name: "Mobil",
-    waktuNormal: "1 jam",
-    tarifNormal: "10000",
-    tarifPerjam: "4000",
-  },
-  {
-    id: 2,
-    name: "Motor",
-    WaktuNormal: "1 jam",
-    tarifNormal: "10000",
-    tarifPerjam: "2000",
-  },
-  {
-    id: 3,
-    name: "Truck",
-    WaktuNormal: "1 jam",
-    tarifNormal: "20000",
-    tarifPerjam: "6000",
-  },
-];
-
 const waktuNormal = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
   23, 24,
@@ -55,6 +31,7 @@ function PengaturanTarifView() {
       console.log(vehicle);
     }
   }, [typeActive]);
+
   useEffect(() => {
     const getData = async () => {
       await axiosConfig
@@ -66,6 +43,47 @@ function PengaturanTarifView() {
     };
     getData();
   }, []);
+
+  const handleAddData = async () => {
+    await axiosConfig
+      .post("/tarif/tambah.php", {
+        jenis: vehicle.jenis,
+        waktu: vehicle.waktu_normal,
+        biaya_normal: vehicle.biaya_normal,
+        biaya_perjam: vehicle.biaya_perjam,
+      })
+      .then((res) => {
+        alert("berhasil menambahkan data");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteData = async () => {
+    await axiosConfig
+      .delete("/tarif/hapus.php?id=" + typeActive)
+      .then((res) => {
+        alert("berhasil menghapus data");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleEditData = async () => {
+    await axiosConfig
+      .patch("/tarif/edit.php?id=" + typeActive, {
+        jenis: vehicle.jenis,
+        waktu: vehicle.waktu_normal,
+        biaya_normal: vehicle.biaya_normal,
+        biaya_perjam: vehicle.biaya_perjam,
+      })
+      .then((res) => {
+        alert("berhasil mengubah data");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div>
       <h1 className="text-3xl flex gap-3 items-center font-bold text-slate-600 border-b-2 border-b-slate-400 pb-5">
@@ -151,22 +169,21 @@ function PengaturanTarifView() {
             <button
               className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-green-300 bg-green-400 text-white "
               title="Tambah Data Baru"
-              onClick={() => {
-                dummyData.push(vehicle);
-                console.log(dummyData);
-              }}
+              onClick={handleAddData}
             >
               <FaSave />
             </button>
             <button
               className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-blue-300 bg-blue-400 text-white "
               title="Perbarui Data"
+              onClick={handleEditData}
             >
               <FaRegEdit />
             </button>
             <button
               className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-red-300 bg-red-400 text-white "
               title="Hapus Data"
+              onClick={handleDeleteData}
             >
               <FaTrashAlt />
             </button>
