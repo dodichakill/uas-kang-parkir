@@ -2,8 +2,8 @@ import React from "react";
 import { IoEnter } from "react-icons/io5";
 import { GrHistory } from "react-icons/gr";
 import TableHistoryParkirKeluar from "./TableHistoryParkirKeluar";
-import CatatComponent from "../../components/CatatComponent";
 import AlertSuccess from "../../components/AlertSuccess";
+import CatatKeluarComponent from "../../components/CatatKeluarComponent";
 
 function KendaraanKeluarView() {
   const [submit, setSubmit] = React.useState(false);
@@ -12,7 +12,7 @@ function KendaraanKeluarView() {
       <h1 className="text-3xl flex gap-3 items-center font-bold text-slate-600 border-b-2 border-b-slate-400 pb-5">
         <IoEnter /> Catat Kendaraan Keluar
       </h1>
-      <CatatComponent onSubmit={() => setSubmit(true)} />
+      <CatatKeluarComponent onSubmit={() => setSubmit(true)} />
       <AlertSuccess open={submit} setOpen={() => setSubmit(false)} />
 
       <div className="riwayat mt-20">

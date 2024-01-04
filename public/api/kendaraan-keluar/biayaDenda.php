@@ -15,7 +15,7 @@
         exit(0);
     }
     
-    if ($_SERVER["REQUEST_METHOD"] != "GET" || empty($_GET["no_karcis"])) {
+    if ($_SERVER["REQUEST_METHOD"] != "GET" || empty($_GET["nopol"])) {
         http_response_code(400);
         die();
     }
@@ -36,10 +36,10 @@
     }
 
     $normal = 0; $awal = 0; $perjam = 0; $biaya = 0;
-    $waktu_masuk = null; $waktu_keluar = null; $selisihWaktu = null;
-    $karcis = $conn->real_escape_string($_GET["no_karcis"]);
+    $waktu_masuk = null; $waktu_keluar = null; $selisihWu = null;
+    $nopol = $conn->real_escape_string($_GET["nopol"]);
 
-    $tarif  = $conn->query("SELECT waktu_normal, biaya_normal, biaya_perjam FROM tarif WHERE jenis = (select jenis FROM pemarkiran WHERE no = $karcis AND status IS NULL)");
+    $tarif  = $conn->query("SELECT waktu_normal, biaya_normal, biaya_perjam FROM tarif WHERE jenis = (select jenis FROM pemarkiran WHERE nopol = '$nopol' AND status IS NULL)");
     if ($tarif && $tarif->num_rows > 0) {
         $row = $tarif->fetch_assoc();
         $normal = $row["waktu_normal"];
@@ -47,7 +47,7 @@
         $perjam = $row["biaya_perjam"];
     }
 
-    $waktu = $conn->query("SELECT masuk FROM pemarkiran WHERE no = $karcis AND status IS NULL");
+    $waktu = $conn->query("SELECT masuk FROM pemarkiran WHERE nopol = '$nopol' AND status IS NULL");
     if ($waktu && $waktu->num_rows > 0) {
         $row = $waktu->fetch_assoc();
         $waktu_masuk  = $row["masuk"];
@@ -58,6 +58,8 @@
 
     if ($selisihWaktu <= $normal) { $biaya = $awal; }
     else { $biaya = $awal + (($selisihWaktu - $normal) * $perjam); }
+
+    $biaya = $biaya * 2;
 
     $data = array( "total_biaya" => intval($biaya) );
 
