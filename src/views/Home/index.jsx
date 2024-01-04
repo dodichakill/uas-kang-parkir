@@ -1,11 +1,22 @@
 import React from "react";
-import Button from "@mui/material/Button";
+import NavigationBar from "../../components/NavigationBar";
+import KendaraanMasukView from "./KendaraanMasukView";
+import { useSelector } from "react-redux";
+import KendaraanKeluarView from "./KendaraanKeluarView";
+import PengaturanTarifView from "./PengaturanTarifView";
+import AkunPegawaiView from "./AkunPegawaiView";
 function Home() {
+  const menuActive = useSelector((state) => state.menu.menuActive);
   return (
-    <>
-      <h1>Home</h1>
-      <Button variant="contained">Hello world</Button>
-    </>
+    <div className="w-full h-screen flex">
+      <NavigationBar />
+      <div className="w-full h-full overflow-y-auto p-10">
+        {menuActive === "kendaraanMasuk" && <KendaraanMasukView />}
+        {menuActive === "kendaraanKeluar" && <KendaraanKeluarView />}
+        {menuActive === "tarif" && <PengaturanTarifView />}
+        {menuActive === "dataPegawai" && <AkunPegawaiView />}
+      </div>
+    </div>
   );
 }
 
