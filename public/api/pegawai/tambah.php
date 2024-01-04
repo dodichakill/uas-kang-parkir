@@ -1,4 +1,14 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
+    header("Access-Control-Max-Age: 3600");
+
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        header("HTTP/1.1 200 OK");
+        exit();
+    }
+
     $input_data = json_decode(file_get_contents("php://input"), true);
     
     if ($_SERVER["REQUEST_METHOD"] != "POST" || empty($input_data["username"]) || empty($input_data["password"]) || empty($input_data["nama"]) || empty($input_data["jenis_kelamin"]) || empty($input_data["no_telp"]) || empty($input_data["alamat"]) || empty($input_data["level"])) {
