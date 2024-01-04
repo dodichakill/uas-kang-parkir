@@ -5,14 +5,10 @@ import { FaSave, FaTrashAlt } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { useEffect } from "react";
 import axiosConfig from "../../api/axiosConfig";
-import axiosConfig from "../../api/axiosConfig";
 
 function AkunPegawaiView() {
   const [typeActive, setTypeActive] = React.useState("");
-  const [jenisKelamin, setJenisKelamin] = React.useState("Laki - Laki");
-  const [jenisKelamin, setJenisKelamin] = React.useState("Laki - Laki");
   const [employee, setEmployee] = React.useState({});
-  const [daftarAkun, setDaftarAkun] = React.useState([]);
   const [daftarAkun, setDaftarAkun] = React.useState([]);
 
   useEffect(() => {
@@ -55,7 +51,6 @@ function AkunPegawaiView() {
         level: employee.level,
       })
       .then((res) => {
-        console.log(res);
         window.location.reload();
       })
       .catch((err) => console.log(err));
@@ -73,20 +68,15 @@ function AkunPegawaiView() {
           </h2>
           <div className="type w-[18rem] flex flex-col items-start gap-2 p-5 border-2 ">
             {daftarAkun.map((data) => (
-            {daftarAkun.map((data) => (
               <button
                 key={data.uuid}
-                key={data.uuid}
                 className={`border-b-2 w-full py-3 ${
-                  typeActive === data.uuid && "bg-blue-200"
                   typeActive === data.uuid && "bg-blue-200"
                 }`}
                 onClick={() => {
                   setTypeActive(data.uuid);
-                  setTypeActive(data.uuid);
                 }}
               >
-                {data.nama}
                 {data.nama}
               </button>
             ))}
@@ -129,8 +119,6 @@ function AkunPegawaiView() {
                 >
                   <MenuItem value={"Standar"}>Standar</MenuItem>
                   <MenuItem value={"Admin"}>Admin</MenuItem>
-                  <MenuItem value={"Standar"}>Standar</MenuItem>
-                  <MenuItem value={"Admin"}>Admin</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -151,13 +139,11 @@ function AkunPegawaiView() {
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
-                  value={employee.gender || "Laki - Laki"}
+                  value={employee.gender || ""}
                   onChange={(e) =>
                     setEmployee({ ...employee, gender: e.target.value })
                   }
                 >
-                  <MenuItem value={"Laki - Laki"}>Laki - laki</MenuItem>
-                  <MenuItem value={"Perempuan"}>Perempuan</MenuItem>
                   <MenuItem value={"Laki - Laki"}>Laki - laki</MenuItem>
                   <MenuItem value={"Perempuan"}>Perempuan</MenuItem>
                 </Select>
