@@ -17,7 +17,6 @@ function AkunPegawaiView() {
         await axiosConfig
           .get(`/pegawai/info.php?uuid=${typeActive}`)
           .then((res) => {
-            console.log(res);
             setEmployee(res.data);
           })
           .catch((err) => console.log(err));

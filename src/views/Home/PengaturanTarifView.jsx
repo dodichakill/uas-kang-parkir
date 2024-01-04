@@ -3,6 +3,8 @@ import React from "react";
 import { MdAttachMoney } from "react-icons/md";
 import { FaSave, FaTrashAlt } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
+import { useEffect } from "react";
+import axiosConfig from "../../api/axiosConfig";
 
 const dummyData = [
   {
@@ -28,11 +30,42 @@ const dummyData = [
   },
 ];
 
+const waktuNormal = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24,
+];
+
 function PengaturanTarifView() {
-  const [waktuNormal, setWaktuNormal] = React.useState("");
   const [typeActive, setTypeActive] = React.useState("");
   const [vehicle, setVehicle] = React.useState({});
+  const [listVehicles, setListVehicles] = React.useState([]);
   const ref = React.useRef();
+
+  useEffect(() => {
+    if (typeActive) {
+      const getData = async () => {
+        await axiosConfig
+          .get(`/tarif/info.php?id=${typeActive}`)
+          .then((res) => {
+            setVehicle(res.data);
+          })
+          .catch((err) => console.log(err));
+      };
+      getData();
+      console.log(vehicle);
+    }
+  }, [typeActive]);
+  useEffect(() => {
+    const getData = async () => {
+      await axiosConfig
+        .get("/tarif/daftar.php")
+        .then((res) => {
+          setListVehicles(res.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    getData();
+  }, []);
   return (
     <div>
       <h1 className="text-3xl flex gap-3 items-center font-bold text-slate-600 border-b-2 border-b-slate-400 pb-5">
@@ -44,7 +77,7 @@ function PengaturanTarifView() {
             Daftar Jenis Kendaraan
           </h2>
           <div className="type w-[18rem] flex flex-col items-start gap-2 p-5 border-2 ">
-            {dummyData.map((data) => (
+            {listVehicles.map((data) => (
               <button
                 key={data.id}
                 ref={ref}
@@ -53,10 +86,9 @@ function PengaturanTarifView() {
                 }`}
                 onClick={() => {
                   setTypeActive(data.id);
-                  setVehicle(data);
                 }}
               >
-                {data.name}
+                {data.jenis}
               </button>
             ))}
           </div>
@@ -69,8 +101,10 @@ function PengaturanTarifView() {
             <p className="text-xl">Jenis</p>
             <TextField
               className="w-72"
-              value={vehicle.name || ""}
-              onChange={(e) => setVehicle({ ...vehicle, name: e.target.value })}
+              value={vehicle.jenis || ""}
+              onChange={(e) =>
+                setVehicle({ ...vehicle, jenis: e.target.value })
+              }
             />
           </div>
           <div className="flex w-[30rem] mb-3 items-center justify-between">
@@ -79,21 +113,16 @@ function PengaturanTarifView() {
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
-                  value={vehicle.WaktuNormal || "1 jam"}
+                  value={vehicle.waktu_normal || 1}
                   onChange={(e) =>
-                    setVehicle({ ...vehicle, WaktuNormal: e.target.value })
+                    setVehicle({ ...vehicle, waktu_normal: e.target.value })
                   }
                 >
-                  <MenuItem value={"1 jam"}>1 Jam</MenuItem>
-                  <MenuItem value={"2 jam"}>2 Jam</MenuItem>
-                  <MenuItem value={"3 jam"}>3 Jam</MenuItem>
-                  <MenuItem value={"4 jam"}>4 Jam</MenuItem>
-                  <MenuItem value={"5 jam"}>5 Jam</MenuItem>
-                  <MenuItem value={"6 jam"}>6 Jam</MenuItem>
-                  <MenuItem value={"7 jam"}>7 Jam</MenuItem>
-                  <MenuItem value={"8 jam"}>8 Jam</MenuItem>
-                  <MenuItem value={"9 jam"}>9 Jam</MenuItem>
-                  <MenuItem value={"10 jam"}>10 Jam</MenuItem>
+                  {waktuNormal.map((data) => (
+                    <MenuItem key={data} value={data}>
+                      {data} Jam
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </div>
@@ -102,9 +131,9 @@ function PengaturanTarifView() {
             <p className="text-xl">Tarif Normal</p>
             <TextField
               className="w-72"
-              value={vehicle.tarifNormal || ""}
+              value={vehicle.biaya_normal || ""}
               onChange={(e) =>
-                setVehicle({ ...vehicle, tarifNormal: e.target.value })
+                setVehicle({ ...vehicle, biaya_normal: e.target.value })
               }
             />
           </div>
@@ -112,9 +141,9 @@ function PengaturanTarifView() {
             <p className="text-xl">Tarif Perjam</p>
             <TextField
               className="w-72"
-              value={vehicle.tarifPerjam || ""}
+              value={vehicle.biaya_perjam || ""}
               onChange={(e) =>
-                setVehicle({ ...vehicle, tarifPerjam: e.target.value })
+                setVehicle({ ...vehicle, biaya_perjam: e.target.value })
               }
             />
           </div>
