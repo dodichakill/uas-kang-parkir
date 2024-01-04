@@ -4,72 +4,42 @@ import { MdAccountCircle } from "react-icons/md";
 import { FaSave, FaTrashAlt } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { useEffect } from "react";
-
-const dummyData = [
-  {
-    id: 1,
-    name: "John Doe",
-    jenisKelamin: "laki-laki",
-    noTelephone: "081234567890",
-    alamat: "Jl. AR hakim no. 10, tegal",
-    password: "12345",
-    role: "admin",
-  },
-  {
-    id: 2,
-    name: "Adam Malik",
-    jenisKelamin: "laki-laki",
-    noTelephone: "081234567890",
-    alamat: "Jl. AR hakim no. 10, tegal",
-    password: "12345",
-    role: "standard",
-  },
-  {
-    id: 3,
-    name: "Jown Wick",
-    jenisKelamin: "laki-laki",
-    noTelephone: "081234567890",
-    alamat: "Jl. AR hakim no. 10, tegal",
-    password: "12345",
-    role: "standard",
-  },
-  {
-    id: 4,
-    name: "John Thor",
-    jenisKelamin: "laki-laki",
-    noTelephone: "081234567890",
-    alamat: "Jl. AR hakim no. 10, tegal",
-    password: "12345",
-    role: "standard",
-  },
-  {
-    id: 5,
-    name: "Jubaedah",
-    jenisKelamin: "perempuan",
-    noTelephone: "081234567890",
-    alamat: "Jl. AR hakim no. 10, tegal",
-    password: "12345",
-    role: "standard",
-  },
-  {
-    id: 6,
-    name: "Putri",
-    jenisKelamin: "perempuan",
-    noTelephone: "081234567890",
-    alamat: "Jl. AR hakim no. 10, tegal",
-    password: "12345",
-    role: "standard",
-  },
-];
+import axiosConfig from "../../api/axiosConfig";
 
 function AkunPegawaiView() {
   const [typeActive, setTypeActive] = React.useState("");
-  const [jenisKelamin, setJenisKelamin] = React.useState("laki-laki");
+  const [jenisKelamin, setJenisKelamin] = React.useState("Laki - Laki");
   const [employee, setEmployee] = React.useState({});
+  const [daftarAkun, setDaftarAkun] = React.useState([]);
 
   useEffect(() => {
-    console.log(employee);
-  }, [employee]);
+    if (typeActive) {
+      const getData = async () => {
+        await axiosConfig
+          .get(`/pegawai/info.php?uuid=${typeActive}`)
+          .then((res) => {
+            console.log(res);
+            setEmployee(res.data);
+          })
+          .catch((err) => console.log(err));
+      };
+      getData();
+      console.log(employee);
+    }
+  }, [typeActive]);
+
+  useEffect(() => {
+    const getData = async () => {
+      await axiosConfig
+        .get("/pegawai/daftar.php")
+        .then((res) => {
+          setDaftarAkun(res.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    getData();
+  }, []);
+
   return (
     <div>
       <h1 className="text-3xl flex gap-3 items-center font-bold text-slate-600 border-b-2 border-b-slate-400 pb-5">
@@ -81,18 +51,17 @@ function AkunPegawaiView() {
             Daftar Akun Pegawai
           </h2>
           <div className="type w-[18rem] flex flex-col items-start gap-2 p-5 border-2 ">
-            {dummyData.map((data) => (
+            {daftarAkun.map((data) => (
               <button
-                key={data.id}
+                key={data.uuid}
                 className={`border-b-2 w-full py-3 ${
-                  typeActive === data.id && "bg-blue-200"
+                  typeActive === data.uuid && "bg-blue-200"
                 }`}
                 onClick={() => {
-                  setTypeActive(data.id);
-                  setEmployee(data);
+                  setTypeActive(data.uuid);
                 }}
               >
-                {data.name}
+                {data.nama}
               </button>
             ))}
           </div>
@@ -103,11 +72,11 @@ function AkunPegawaiView() {
           </h2>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">ID</p>
-            <TextField className="w-80" value={employee.id || ""} />
+            <TextField className="w-80" value={""} />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Sandi</p>
-            <TextField className="w-80" value={employee.password || ""} />
+            <TextField className="w-80" value={""} />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Level</p>
@@ -115,18 +84,18 @@ function AkunPegawaiView() {
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
-                  value={employee.role || ""}
+                  value={employee.level || "Standar"}
                   onChange={(e) => setJenisKelamin(e.target.value)}
                 >
-                  <MenuItem value={"standard"}>Standar</MenuItem>
-                  <MenuItem value={"admin"}>Admin</MenuItem>
+                  <MenuItem value={"Standar"}>Standar</MenuItem>
+                  <MenuItem value={"Admin"}>Admin</MenuItem>
                 </Select>
               </FormControl>
             </div>
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Nama</p>
-            <TextField className="w-80" value={employee.name || ""} />
+            <TextField className="w-80" value={employee.nama || ""} />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Jenis Kelamin</p>
@@ -134,18 +103,18 @@ function AkunPegawaiView() {
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
-                  value={employee.jenisKelamin || jenisKelamin}
+                  value={employee.gender || jenisKelamin}
                   onChange={(e) => setJenisKelamin(e.target.value)}
                 >
-                  <MenuItem value={"laki-laki"}>Laki-laki</MenuItem>
-                  <MenuItem value={"perempuan"}>Perempuan</MenuItem>
+                  <MenuItem value={"Laki - Laki"}>Laki - laki</MenuItem>
+                  <MenuItem value={"Perempuan"}>Perempuan</MenuItem>
                 </Select>
               </FormControl>
             </div>
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">No Telephone</p>
-            <TextField className="w-80" value={employee.noTelephone || ""} />
+            <TextField className="w-80" value={employee.telp || ""} />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Alamat</p>
