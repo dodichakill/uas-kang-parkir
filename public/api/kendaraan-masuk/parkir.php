@@ -23,6 +23,7 @@
     }
     
     session_start();
+    date_default_timezone_set('Asia/Jakarta');
 
     $conn = new mysqli("dbparkir.my.id", "hanif", "123", "parkirin");
 
@@ -38,10 +39,11 @@
 
     $nopol   = $conn->real_escape_string($input_data["nopol"]);
     $jenis   = $conn->real_escape_string($input_data["jenis"]);
+    $masuk   = date('Y-m-d H:i:s');
     $pegawai = $conn->real_escape_string($_SESSION["uuid"]);
 
-    $query = $conn->prepare("INSERT INTO pemarkiran (nopol, jenis, masuk, pegawai) VALUES (?, ?, NOW(), (SELECT nama FROM pegawai WHERE uuid = ?))");
-    $query->bind_param("sss", $nopol, $jenis, $pegawai);
+    $query = $conn->prepare("INSERT INTO pemarkiran (nopol, jenis, masuk, pegawai) VALUES (?, ?, ?, (SELECT nama FROM pegawai WHERE uuid = ?))");
+    $query->bind_param("ssss", $nopol, $jenis, $masuk, $pegawai);
 
     if ($query->execute()) {
         $sql = "SELECT no FROM pemarkiran WHERE nopol = '$nopol' ORDER BY no DESC LIMIT 1";
