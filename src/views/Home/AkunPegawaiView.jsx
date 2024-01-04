@@ -40,6 +40,24 @@ function AkunPegawaiView() {
     getData();
   }, []);
 
+  const handleAddData = async () => {
+    await axiosConfig
+      .post("/pegawai/tambah.php", {
+        username: employee.username,
+        password: employee.password,
+        nama: employee.nama,
+        gender: employee.gender,
+        no_telp: employee.telp,
+        alamat: employee.alamat,
+        level: employee.level,
+      })
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div>
       <h1 className="text-3xl flex gap-3 items-center font-bold text-slate-600 border-b-2 border-b-slate-400 pb-5">
@@ -72,11 +90,23 @@ function AkunPegawaiView() {
           </h2>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">ID</p>
-            <TextField className="w-80" value={""} />
+            <TextField
+              className="w-80"
+              value={employee.username || ""}
+              onChange={(e) =>
+                setEmployee({ ...employee, username: e.target.value })
+              }
+            />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Sandi</p>
-            <TextField className="w-80" value={""} />
+            <TextField
+              className="w-80"
+              value={employee.password || ""}
+              onChange={(e) =>
+                setEmployee({ ...employee, password: e.target.value })
+              }
+            />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Level</p>
@@ -85,7 +115,9 @@ function AkunPegawaiView() {
                 <Select
                   id="demo-simple-select"
                   value={employee.level || "Standar"}
-                  onChange={(e) => setJenisKelamin(e.target.value)}
+                  onChange={(e) =>
+                    setEmployee({ ...employee, level: e.target.value })
+                  }
                 >
                   <MenuItem value={"Standar"}>Standar</MenuItem>
                   <MenuItem value={"Admin"}>Admin</MenuItem>
@@ -95,7 +127,13 @@ function AkunPegawaiView() {
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Nama</p>
-            <TextField className="w-80" value={employee.nama || ""} />
+            <TextField
+              className="w-80"
+              value={employee.nama || ""}
+              onChange={(e) =>
+                setEmployee({ ...employee, nama: e.target.value })
+              }
+            />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Jenis Kelamin</p>
@@ -103,8 +141,10 @@ function AkunPegawaiView() {
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
-                  value={employee.gender || jenisKelamin}
-                  onChange={(e) => setJenisKelamin(e.target.value)}
+                  value={employee.gender || "Laki - Laki"}
+                  onChange={(e) =>
+                    setEmployee({ ...employee, gender: e.target.value })
+                  }
                 >
                   <MenuItem value={"Laki - Laki"}>Laki - laki</MenuItem>
                   <MenuItem value={"Perempuan"}>Perempuan</MenuItem>
@@ -114,7 +154,13 @@ function AkunPegawaiView() {
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">No Telephone</p>
-            <TextField className="w-80" value={employee.telp || ""} />
+            <TextField
+              className="w-80"
+              value={employee.telp || ""}
+              onChange={(e) =>
+                setEmployee({ ...employee, telp: e.target.value })
+              }
+            />
           </div>
           <div className="flex w-[32rem] mb-3 items-center justify-between">
             <p className="text-xl">Alamat</p>
@@ -122,10 +168,16 @@ function AkunPegawaiView() {
               rows={5}
               className="border-2 border-slate-200 w-80 py-2 px-3"
               value={employee.alamat || ""}
+              onChange={(prev) =>
+                setEmployee({ ...employee, alamat: prev.target.value })
+              }
             />
           </div>
           <div className="flex mt-5 gap-4 justify-end">
-            <button className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-green-300 bg-green-400 text-white ">
+            <button
+              className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-green-300 bg-green-400 text-white "
+              onClick={handleAddData}
+            >
               <FaSave />
             </button>
             <button className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-blue-300 bg-blue-400 text-white ">
