@@ -1,12 +1,18 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: POST, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type");
-    header("Access-Control-Max-Age: 3600");
-
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');
+    }
+    
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        header("HTTP/1.1 200 OK");
-        exit();
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: POST, OPTIONS");
+    
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    
+        exit(0);
     }
 
     $input_data = json_decode(file_get_contents("php://input"), true);
@@ -17,6 +23,7 @@
     }
     
     session_start();
+    date_default_timezone_set('Asia/Jakarta');
 
     $conn = new mysqli("dbparkir.my.id", "hanif", "123", "parkirin");
 
@@ -32,10 +39,11 @@
 
     $nopol   = $conn->real_escape_string($input_data["nopol"]);
     $jenis   = $conn->real_escape_string($input_data["jenis"]);
+    $masuk   = date('Y-m-d H:i:s');
     $pegawai = $conn->real_escape_string($_SESSION["uuid"]);
 
-    $query = $conn->prepare("INSERT INTO pemarkiran (nopol, jenis, masuk, pegawai) VALUES (?, ?, NOW(), (SELECT nama FROM pegawai WHERE uuid = ?))");
-    $query->bind_param("sss", $nopol, $jenis, $pegawai);
+    $query = $conn->prepare("INSERT INTO pemarkiran (nopol, jenis, masuk, pegawai) VALUES (?, ?, ?, (SELECT nama FROM pegawai WHERE uuid = ?))");
+    $query->bind_param("ssss", $nopol, $jenis, $masuk, $pegawai);
 
     if ($query->execute()) {
         $sql = "SELECT no FROM pemarkiran WHERE nopol = '$nopol' ORDER BY no DESC LIMIT 1";
