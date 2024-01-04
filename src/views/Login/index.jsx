@@ -1,23 +1,37 @@
 import React from "react";
 import imgLogin from "../../assets/images/login.jpeg";
 import { TextField } from "@mui/material";
-import { Link } from "react-router-dom";
 import { FaIdCardClip } from "react-icons/fa6";
 import axios from "../../api/axiosConfig";
 
 function Login() {
-  const [showPassword, setShowPassword] = React.useState(false);
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const handleSubmit = async () => {
+  const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!username && !password) {
       alert("Username dan Password harus diisi");
     } else {
-      const response = await axios.post("/auth/masuk.php", {
-        username,
-        password,
-      });
-      console.log(response);
+      try {
+        setLoading(true);
+
+        await axios
+          .post("/auth/masuk.php", {
+            username,
+            password,
+          })
+          .then((res) => {
+            window.location.replace("/");
+          });
+      } catch (error) {
+        console.log(error);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -53,11 +67,17 @@ function Login() {
               />
             </div>
           </div>
+          {error && (
+            <p className="text-red-500 px-2 py-1 mt-2 italic bg-red-100">
+              Username atau password salah!
+            </p>
+          )}
           <button
             onClick={handleSubmit}
             className="px-5 py-3 bg-blue-400 text-white rounded-lg mt-5 hover:bg-blue-500"
+            disabled={loading}
           >
-            Login Sekarang
+            {loading ? "Sedang Login..." : "Login Sekarang"}
           </button>
         </div>
       </div>
