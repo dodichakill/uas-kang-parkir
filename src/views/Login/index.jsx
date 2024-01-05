@@ -3,6 +3,7 @@ import imgLogin from "../../assets/images/login.jpeg";
 import { TextField } from "@mui/material";
 import { FaIdCardClip } from "react-icons/fa6";
 import axios from "../../api/axiosConfig";
+import { FaCheckCircle } from "react-icons/fa";
 
 function Login() {
   const [username, setUsername] = React.useState("");
@@ -24,7 +25,7 @@ function Login() {
             password,
           })
           .then((res) => {
-            window.location.replace("/");
+            window.location.replace("/dashboard");
           });
       } catch (error) {
         console.log(error);
@@ -44,7 +45,7 @@ function Login() {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="w-1/2 bg-slate-200 flex justify-center items-center">
+      <div className="w-1/2 bg-slate-200 flex flex-col justify-center items-center relative">
         <div className="w-80 p-5 shadow-lg shadow-blue-300 rounded-xl text-center bg-white black items-center flex flex-col">
           <div className="p-5 bg-slate-200 w-20 h-20 flex justify-center items-center rounded-full mb-5">
             <FaIdCardClip className="text-center text-5xl text-blue-400" />
@@ -79,6 +80,29 @@ function Login() {
           >
             {loading ? "Sedang Login..." : "Login Sekarang"}
           </button>
+        </div>
+
+        <div className="w-96 rounded-lg shadow-lg shadow-purple-300 p-5 bg-slate-50 absolute bottom-10">
+          <h1 className="text-center font-semibold my-3 border-b-2 border-slate-300 pb-3 text-slate-600 text-lg">
+            Daftar Anggota Kelompok :{" "}
+          </h1>
+          <div className="text-center flex flex-col gap-2 items-center mt-2 text-slate-500">
+            <p className="flex items-center gap-2">
+              <FaCheckCircle />
+              Dodi (22090036)
+            </p>
+            <p className="flex items-center gap-2">
+              <FaCheckCircle />M Ibrahim Hanif (22090118)
+            </p>
+            <p className="flex items-center gap-2">
+              <FaCheckCircle />
+              Excomunicado 1 (-)
+            </p>
+            <p className="flex items-center gap-2">
+              <FaCheckCircle />
+              Excomunicado 2 (-)
+            </p>
+          </div>
         </div>
       </div>
     </div>

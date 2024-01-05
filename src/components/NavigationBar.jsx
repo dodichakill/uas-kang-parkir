@@ -22,7 +22,7 @@ function NavigationBar({}) {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            window.location.replace("/login");
+            window.location.replace("/");
           }
           console.log(err);
         });
@@ -35,7 +35,7 @@ function NavigationBar({}) {
       .post("/auth/keluar.php")
       .then((res) => {
         if (res.status === 200) {
-          window.location.replace("/login");
+          window.location.replace("/");
         }
       })
       .catch((err) => console.log(err));

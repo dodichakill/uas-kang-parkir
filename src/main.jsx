@@ -10,11 +10,11 @@ import { store } from "./redux/store";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Login />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/dashboard",
+    element: <Home />,
   },
 ]);
 
