@@ -109,15 +109,17 @@ function rowContent(_index, row) {
 export default function TableHistoryParkirKeluar() {
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    const getData = async () => {
-      await axiosConfig
-        .get("/kendaraan-keluar/riwayat.php")
-        .then((res) => {
-          setRows(res.data);
-        })
-        .catch((err) => console.log(err));
-    };
-    getData();
+    setInterval(() => {
+      const getData = async () => {
+        await axiosConfig
+          .get("/kendaraan-keluar/riwayat.php")
+          .then((res) => {
+            setRows(res.data);
+          })
+          .catch((err) => console.log(err));
+      };
+      getData();
+    }, 2000);
   }, []);
   return (
     <Paper style={{ height: 500, width: "100%" }}>

@@ -25,7 +25,7 @@ const columns = [
   {
     width: 150,
     label: "No Karcis",
-    dataKey: "ticket",
+    dataKey: "no",
   },
   {
     width: 150,
@@ -99,15 +99,17 @@ function rowContent(_index, row) {
 export default function TableHistoryParkirMasuk() {
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    const getData = async () => {
-      await axiosConfig
-        .get("/kendaraan-masuk/riwayat.php")
-        .then((res) => {
-          setRows(res.data);
-        })
-        .catch((err) => console.log(err));
-    };
-    getData();
+    setInterval(() => {
+      const getData = async () => {
+        await axiosConfig
+          .get("/kendaraan-masuk/riwayat.php")
+          .then((res) => {
+            setRows(res.data);
+          })
+          .catch((err) => console.log(err));
+      };
+      getData();
+    }, 2000);
   }, []);
   return (
     <Paper style={{ height: 500, width: "100%" }}>

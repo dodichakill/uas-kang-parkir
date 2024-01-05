@@ -1,10 +1,17 @@
-import { FormControl, MenuItem, Select, TextField } from "@mui/material";
+import {
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import React from "react";
 import { MdAttachMoney } from "react-icons/md";
 import { FaSave, FaTrashAlt } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { useEffect } from "react";
 import axiosConfig from "../../api/axiosConfig";
+import AlertSuccess from "../../components/AlertSuccess";
 
 const waktuNormal = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -15,7 +22,12 @@ function PengaturanTarifView() {
   const [typeActive, setTypeActive] = React.useState("");
   const [vehicle, setVehicle] = React.useState({});
   const [listVehicles, setListVehicles] = React.useState([]);
-  const ref = React.useRef();
+  const [loading, setLoading] = React.useState(true);
+  const [isSuccess, setIsSuccess] = React.useState({
+    edit: false,
+    add: false,
+    delete: false,
+  });
 
   useEffect(() => {
     if (typeActive) {
@@ -28,20 +40,27 @@ function PengaturanTarifView() {
           .catch((err) => console.log(err));
       };
       getData();
-      console.log(vehicle);
     }
   }, [typeActive]);
 
   useEffect(() => {
-    const getData = async () => {
-      await axiosConfig
-        .get("/tarif/daftar.php")
-        .then((res) => {
-          setListVehicles(res.data);
-        })
-        .catch((err) => console.log(err));
-    };
-    getData();
+    setInterval(() => {
+      try {
+        const getData = async () => {
+          await axiosConfig
+            .get("/tarif/daftar.php")
+            .then((res) => {
+              setListVehicles(res.data);
+            })
+            .catch((err) => console.log(err));
+        };
+        getData();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }, 2500);
   }, []);
 
   const handleAddData = async () => {
@@ -53,8 +72,9 @@ function PengaturanTarifView() {
         biaya_perjam: vehicle.biaya_perjam,
       })
       .then((res) => {
-        alert("berhasil menambahkan data");
-        window.location.reload();
+        setVehicle({});
+        setTypeActive("");
+        setIsSuccess({ ...isSuccess, add: true });
       })
       .catch((err) => console.log(err));
   };
@@ -63,8 +83,9 @@ function PengaturanTarifView() {
     await axiosConfig
       .delete("/tarif/hapus.php?id=" + typeActive)
       .then((res) => {
-        alert("berhasil menghapus data");
-        window.location.reload();
+        setTypeActive("");
+        setVehicle({});
+        setIsSuccess({ ...isSuccess, delete: true });
       })
       .catch((err) => console.log(err));
   };
@@ -78,8 +99,9 @@ function PengaturanTarifView() {
         biaya_perjam: vehicle.biaya_perjam,
       })
       .then((res) => {
-        alert("berhasil mengubah data");
-        window.location.reload();
+        setVehicle({});
+        setTypeActive("");
+        setIsSuccess({ ...isSuccess, edit: true });
       })
       .catch((err) => console.log(err));
   };
@@ -94,21 +116,24 @@ function PengaturanTarifView() {
           <h2 className="text-2xl mt-10 text-slate-600 flex items-center gap-3 font-semibold mb-5">
             Daftar Jenis Kendaraan
           </h2>
-          <div className="type w-[18rem] flex flex-col items-start gap-2 p-5 border-2 ">
-            {listVehicles.map((data) => (
-              <button
-                key={data.id}
-                ref={ref}
-                className={`border-b-2 w-full py-3 ${
-                  typeActive === data.id && "bg-blue-200"
-                }`}
-                onClick={() => {
-                  setTypeActive(data.id);
-                }}
-              >
-                {data.jenis}
-              </button>
-            ))}
+          <div className="type w-[18rem] flex flex-col items-start gap-2 p-5 border-2 justify-center ">
+            {loading ? (
+              <CircularProgress className="mx-auto" />
+            ) : (
+              listVehicles.map((data) => (
+                <button
+                  key={data.id}
+                  className={`border-b-2 w-full py-3 ${
+                    typeActive === data.id && "bg-blue-200"
+                  }`}
+                  onClick={() => {
+                    setTypeActive(data.id);
+                  }}
+                >
+                  {data.jenis}
+                </button>
+              ))
+            )}
           </div>
         </div>
         <div className="info">
@@ -131,7 +156,7 @@ function PengaturanTarifView() {
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
-                  value={vehicle.waktu_normal || 1}
+                  value={vehicle.waktu_normal || ""}
                   onChange={(e) =>
                     setVehicle({ ...vehicle, waktu_normal: e.target.value })
                   }
@@ -188,6 +213,30 @@ function PengaturanTarifView() {
               <FaTrashAlt />
             </button>
           </div>
+          {isSuccess.add && (
+            <AlertSuccess
+              open={isSuccess.add}
+              width="30rem"
+              setOpen={() => setIsSuccess({ ...isSuccess, add: false })}
+              text="Berhasil menambahkan data baru !"
+            />
+          )}
+          {isSuccess.edit && (
+            <AlertSuccess
+              open={isSuccess.edit}
+              width="30rem"
+              setOpen={() => setIsSuccess({ ...isSuccess, edit: false })}
+              text="Berhasil memperbarui data !"
+            />
+          )}
+          {isSuccess.delete && (
+            <AlertSuccess
+              open={isSuccess.delete}
+              width="30rem"
+              setOpen={() => setIsSuccess({ ...isSuccess, delete: false })}
+              text="Berhasil menghapus data !"
+            />
+          )}
         </div>
       </div>
     </div>

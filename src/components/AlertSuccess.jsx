@@ -3,10 +3,14 @@ import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 
-function AlertSuccess({ open, setOpen }) {
-  console.log("okee");
+function AlertSuccess({
+  open,
+  setOpen,
+  text = "Data Berhasil Tercatat!",
+  width = "41rem",
+}) {
   return (
-    <Box sx={{ width: "100%", marginTop: "20px" }}>
+    <Box sx={{ width, marginTop: "20px" }}>
       <Collapse in={open}>
         <Alert
           action={
@@ -21,7 +25,7 @@ function AlertSuccess({ open, setOpen }) {
           }
           sx={{ mb: 2 }}
         >
-          Data Berhasil Tercatat!
+          {text}
         </Alert>
       </Collapse>
     </Box>

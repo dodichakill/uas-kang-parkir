@@ -19,7 +19,12 @@ function NavigationBar({}) {
         .then((res) => {
           setLevel(res.data.level);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (err.response.status === 401) {
+            window.location.replace("/login");
+          }
+          console.log(err);
+        });
     };
     getData();
   });
