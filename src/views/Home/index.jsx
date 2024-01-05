@@ -10,7 +10,7 @@ function Home() {
   return (
     <div className="w-full h-screen flex">
       <NavigationBar />
-      <div className="w-full h-full overflow-y-auto p-10">
+      <div className="w-full h-full overflow-y-auto py-10 px-20">
         {menuActive === "kendaraanMasuk" && <KendaraanMasukView />}
         {menuActive === "kendaraanKeluar" && <KendaraanKeluarView />}
         {menuActive === "tarif" && <PengaturanTarifView />}

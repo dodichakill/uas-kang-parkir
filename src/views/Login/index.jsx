@@ -41,13 +41,13 @@ function Login() {
         <img
           src={imgLogin}
           alt="ilustrasi"
-          className="w-full h-full bg-cover"
+          className="w-full h-full object-cover"
         />
       </div>
       <div className="w-1/2 bg-slate-200 flex justify-center items-center">
-        <div className="w-80 p-5 shadow rounded-xl text-center bg-white black items-center flex flex-col">
+        <div className="w-80 p-5 shadow-lg shadow-blue-300 rounded-xl text-center bg-white black items-center flex flex-col">
           <div className="p-5 bg-slate-200 w-20 h-20 flex justify-center items-center rounded-full mb-5">
-            <FaIdCardClip className="text-center text-5xl" />
+            <FaIdCardClip className="text-center text-5xl text-blue-400" />
           </div>
 
           <div className="input-form gap-2 flex flex-col">
@@ -74,7 +74,7 @@ function Login() {
           )}
           <button
             onClick={handleSubmit}
-            className="px-5 py-3 bg-blue-400 text-white rounded-lg mt-5 hover:bg-blue-500"
+            className="px-5 py-3 shadow mb-5 bg-gradient-to-br from-blue-400 to-purple-500  text-white rounded-lg mt-5 hover:bg-blue-500"
             disabled={loading}
           >
             {loading ? "Sedang Login..." : "Login Sekarang"}

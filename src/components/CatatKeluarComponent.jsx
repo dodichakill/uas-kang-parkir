@@ -102,7 +102,7 @@ function CatatKeluarComponent() {
               disabled={true}
             />
             <button
-              className="px-5 py-3 bg-blue-400 block shadow shadow-blue-300 active:bg-blue-500 text-white rounded-lg"
+              className="px-5 py-3 bg-gradient-to-br from-blue-400 to-purple-500  block shadow shadow-blue-300 active:bg-blue-500 text-white rounded-lg"
               onClick={handleSendNormal}
               disabled={loadingBiaya || noTicket === ""}
             >
@@ -129,7 +129,7 @@ function CatatKeluarComponent() {
               disabled={true}
             />
             <button
-              className="px-5 py-3 bg-blue-400 block shadow shadow-blue-300 active:bg-blue-500 text-white rounded-lg"
+              className="px-5 py-3 bg-gradient-to-br from-blue-400 to-purple-500  block shadow shadow-blue-300 active:bg-blue-500 text-white rounded-lg"
               disabled={loadingBiayaDenda || noPol === ""}
               onClick={handleSendDenda}
             >

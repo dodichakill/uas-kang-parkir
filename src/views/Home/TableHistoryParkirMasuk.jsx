@@ -10,6 +10,7 @@ import { TableVirtuoso } from "react-virtuoso";
 import { useEffect } from "react";
 import { useState } from "react";
 import axiosConfig from "../../api/axiosConfig";
+import { CircularProgress } from "@mui/material";
 
 const columns = [
   {
@@ -98,12 +99,14 @@ function rowContent(_index, row) {
 
 export default function TableHistoryParkirMasuk() {
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setInterval(() => {
       const getData = async () => {
         await axiosConfig
           .get("/kendaraan-masuk/riwayat.php")
           .then((res) => {
+            setIsLoading(false);
             setRows(res.data);
           })
           .catch((err) => console.log(err));
@@ -113,12 +116,18 @@ export default function TableHistoryParkirMasuk() {
   }, []);
   return (
     <Paper style={{ height: 500, width: "100%" }}>
-      <TableVirtuoso
-        data={rows}
-        components={VirtuosoTableComponents}
-        fixedHeaderContent={fixedHeaderContent}
-        itemContent={rowContent}
-      />
+      {isLoading ? (
+        <div className="w-full h-full flex flex-col items-center justify-center">
+          <CircularProgress />
+        </div>
+      ) : (
+        <TableVirtuoso
+          data={rows}
+          components={VirtuosoTableComponents}
+          fixedHeaderContent={fixedHeaderContent}
+          itemContent={rowContent}
+        />
+      )}
     </Paper>
   );
 }

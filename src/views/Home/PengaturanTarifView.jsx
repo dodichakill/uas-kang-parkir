@@ -23,6 +23,7 @@ function PengaturanTarifView() {
   const [vehicle, setVehicle] = React.useState({});
   const [listVehicles, setListVehicles] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [loadingAction, setLoadingAction] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState({
     edit: false,
     add: false,
@@ -47,23 +48,20 @@ function PengaturanTarifView() {
     setInterval(() => {
       try {
         const getData = async () => {
-          await axiosConfig
-            .get("/tarif/daftar.php")
-            .then((res) => {
-              setListVehicles(res.data);
-            })
-            .catch((err) => console.log(err));
+          await axiosConfig.get("/tarif/daftar.php").then((res) => {
+            setListVehicles(res.data);
+            setLoading(false);
+          });
         };
         getData();
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
       }
     }, 2500);
   }, []);
 
   const handleAddData = async () => {
+    setLoadingAction(true);
     await axiosConfig
       .post("/tarif/tambah.php", {
         jenis: vehicle.jenis,
@@ -72,6 +70,7 @@ function PengaturanTarifView() {
         biaya_perjam: vehicle.biaya_perjam,
       })
       .then((res) => {
+        setLoadingAction(false);
         setVehicle({});
         setTypeActive("");
         setIsSuccess({ ...isSuccess, add: true });
@@ -80,9 +79,11 @@ function PengaturanTarifView() {
   };
 
   const handleDeleteData = async () => {
+    setLoadingAction(true);
     await axiosConfig
       .delete("/tarif/hapus.php?id=" + typeActive)
       .then((res) => {
+        setLoadingAction(false);
         setTypeActive("");
         setVehicle({});
         setIsSuccess({ ...isSuccess, delete: true });
@@ -91,6 +92,7 @@ function PengaturanTarifView() {
   };
 
   const handleEditData = async () => {
+    setLoadingAction(true);
     await axiosConfig
       .patch("/tarif/edit.php?id=" + typeActive, {
         jenis: vehicle.jenis,
@@ -99,6 +101,7 @@ function PengaturanTarifView() {
         biaya_perjam: vehicle.biaya_perjam,
       })
       .then((res) => {
+        setLoadingAction(false);
         setVehicle({});
         setTypeActive("");
         setIsSuccess({ ...isSuccess, edit: true });
@@ -195,6 +198,7 @@ function PengaturanTarifView() {
               className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-green-300 bg-green-400 text-white "
               title="Tambah Data Baru"
               onClick={handleAddData}
+              disabled={loadingAction}
             >
               <FaSave />
             </button>
@@ -202,6 +206,7 @@ function PengaturanTarifView() {
               className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-blue-300 bg-blue-400 text-white "
               title="Perbarui Data"
               onClick={handleEditData}
+              disabled={loadingAction}
             >
               <FaRegEdit />
             </button>
@@ -209,6 +214,7 @@ function PengaturanTarifView() {
               className="w-20 h-20 text-4xl flex items-center justify-center rounded-full shadow-lg shadow-red-300 bg-red-400 text-white "
               title="Hapus Data"
               onClick={handleDeleteData}
+              disabled={loadingAction}
             >
               <FaTrashAlt />
             </button>

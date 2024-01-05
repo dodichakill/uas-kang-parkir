@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMenuActive } from "../redux/menuSlice";
 import { useEffect } from "react";
 import axios from "../api/axiosConfig";
+import imgIlustrasi from "../assets/images/imgNav.png";
 
 function NavigationBar({}) {
   const [level, setLevel] = React.useState("");
@@ -40,9 +41,9 @@ function NavigationBar({}) {
       .catch((err) => console.log(err));
   };
   return (
-    <div className="w-96 p-5 bg-blue-400 h-screen flex justify-center items-center">
-      <div className="">
-        <div className="flex items-center gap-4 pb-3 border-b-2 border-white mb-2">
+    <div className="w-96 p-5 bg-gradient-to-b from-sky-500 to-purple-400 h-screen relative flex justify-center">
+      <div className="z-50">
+        <div className="flex items-center gap-4 pb-3 border-b-2 border-white mb-2 mt-8">
           <GiTicket className="text-white text-4xl" />
           <h1 className="text-3xl text-white font-bold">Tiket Parkir</h1>
         </div>
@@ -72,7 +73,7 @@ function NavigationBar({}) {
 
               <BtnMenuNavbar
                 icon={<MdAccountCircle />}
-                text="Data Pegawai"
+                text="Akun Pegawai"
                 isActive={menuActive === "dataPegawai"}
                 onClick={() => dispatch(setMenuActive("dataPegawai"))}
               />
@@ -87,6 +88,7 @@ function NavigationBar({}) {
           />
         </div>
       </div>
+      <img src={imgIlustrasi} className="absolute z-10 bottom-0 right-0" />
     </div>
   );
 }

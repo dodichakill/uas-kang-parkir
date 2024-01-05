@@ -72,7 +72,7 @@ function CatatComponent() {
         </div>
 
         <button
-          className="px-5 py-3 bg-blue-400 shadow shadow-blue-300 active:bg-blue-500 text-white rounded-lg mr-5"
+          className="px-5 py-3 shadow bg-gradient-to-br from-blue-400 to-purple-500  text-white rounded-lg mr-5"
           onClick={handleSubmit}
           disabled={noPol === "" || vehicle === ""}
         >
