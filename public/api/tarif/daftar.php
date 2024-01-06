@@ -34,12 +34,7 @@
         http_response_code(401);
         die();
     }
-
-    if ($_SESSION["level"] != "Admin") {
-        http_response_code(403);
-        die();
-    }
-
+ 
     $sql    = "SELECT id, jenis from tarif";
     $result = $conn->query($sql);
     $data   = array();
