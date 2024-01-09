@@ -60,7 +60,7 @@ function Beranda() {
           />
           <ItemFeature
             icon={<MdAccountCircle />}
-            title={"Kendaraan Masuk"}
+            title={"Akun Pegawai"}
             description={
               "Admin Dapat mengelola akun pegawai yang akan melakukan tugasnya di web ini"
             }
