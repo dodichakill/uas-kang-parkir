@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  menuActive: "kendaraanMasuk",
+  menuActive: "beranda",
 };
 
 export const menuSlice = createSlice({

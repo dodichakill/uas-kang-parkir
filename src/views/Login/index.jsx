@@ -25,7 +25,8 @@ function Login() {
             password,
           })
           .then((res) => {
-            window.location.replace("/dashboard");
+            localStorage.setItem("login", true);
+            window.location.reload();
           });
       } catch (error) {
         console.log(error);
@@ -81,12 +82,11 @@ function Login() {
             {loading ? "Sedang Login..." : "Login Sekarang"}
           </button>
         </div>
-
-        <div className="w-96 rounded-lg shadow-lg shadow-purple-300 p-5 bg-slate-50 absolute bottom-10">
+        <div className="w-[28rem] rounded-lg shadow-lg shadow-purple-300 p-5 pb-10 bg-slate-50 mt-10">
           <h1 className="text-center font-semibold my-3 border-b-2 border-slate-300 pb-3 text-slate-600 text-lg">
             Daftar Anggota Kelompok :{" "}
           </h1>
-          <div className="text-center flex flex-col gap-2 items-center mt-2 text-slate-500">
+          <div className="text-center flex flex-col gap-2 items-center mt-5 text-slate-500">
             <p className="flex items-center gap-2">
               <FaCheckCircle />
               Dodi (22090036)
@@ -96,11 +96,11 @@ function Login() {
             </p>
             <p className="flex items-center gap-2">
               <FaCheckCircle />
-              Excomunicado 1 (-)
+              IKHWAN IRGI SAPUTRA (22090061)
             </p>
             <p className="flex items-center gap-2">
               <FaCheckCircle />
-              Excomunicado 2 (-)
+              M. YUGO CAHYO FURQONSYAH (22090167)
             </p>
           </div>
         </div>

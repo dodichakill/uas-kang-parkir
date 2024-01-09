@@ -1,5 +1,5 @@
 import React from "react";
-import { IoEnter, IoExit, IoPower } from "react-icons/io5";
+import { IoEnter, IoExit, IoHome, IoPower } from "react-icons/io5";
 import BtnMenuNavbar from "./BtnMenuNavbar";
 import { MdAttachMoney, MdAccountCircle } from "react-icons/md";
 import { GiTicket } from "react-icons/gi";
@@ -22,6 +22,7 @@ function NavigationBar({}) {
         })
         .catch((err) => {
           if (err.response.status === 401) {
+            localStorage.removeItem("login");
             window.location.replace("/");
           }
           console.log(err);
@@ -35,6 +36,7 @@ function NavigationBar({}) {
       .post("/auth/keluar.php")
       .then((res) => {
         if (res.status === 200) {
+          localStorage.removeItem("login");
           window.location.replace("/");
         }
       })
@@ -48,6 +50,13 @@ function NavigationBar({}) {
           <h1 className="text-3xl text-white font-bold">Tiket Parkir</h1>
         </div>
         <div className="mt-10 flex flex-col gap-5">
+          <BtnMenuNavbar
+            icon={<IoHome />}
+            text="Beranda"
+            isActive={menuActive === "beranda"}
+            onClick={() => dispatch(setMenuActive("beranda"))}
+          />
+
           <BtnMenuNavbar
             icon={<IoEnter />}
             text="Kendaraan Masuk"

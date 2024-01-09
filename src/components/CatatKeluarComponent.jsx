@@ -17,27 +17,36 @@ function CatatKeluarComponent() {
   const [totalBiayaDenda, setTotalBiayaDenda] = React.useState("");
   const [loadingBiaya, setLoadingBiaya] = React.useState(false);
   const [loadingBiayaDenda, setLoadingBiayaDenda] = React.useState(false);
+  const [loadingNoticketBiaya, setLoadingNoticketBiaya] = React.useState(false);
+  const [loadingNoticketBiayaDenda, setLoadingNoticketBiayaDenda] =
+    React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
 
   const handleSubmit = async () => {
+    setLoadingNoticketBiaya(true);
     try {
       await axiosConfig
         .get("/kendaraan-keluar/biaya.php?no_karcis=" + noTicket)
         .then((res) => {
+          setLoadingNoticketBiaya(false);
           setTotalBiaya(res.data?.total_biaya);
         });
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingNoticketBiaya(false);
     }
   };
 
   const handleSubmitTiketHilang = async () => {
+    setLoadingNoticketBiayaDenda(true);
     await axiosConfig
       .get("/kendaraan-keluar/biayaDenda.php?nopol=" + noPol)
       .then((res) => {
         setTotalBiayaDenda(res.data?.total_biaya);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoadingNoticketBiayaDenda(false));
   };
 
   const handleSendNormal = async () => {
@@ -98,7 +107,7 @@ function CatatKeluarComponent() {
             <TextField
               placeholder="Biaya"
               onChange={(e) => setTotalBiaya(e.target.value)}
-              value={totalBiaya}
+              value={loadingNoticketBiaya ? "Loading..." : totalBiaya}
               disabled={true}
             />
             <button
@@ -125,7 +134,7 @@ function CatatKeluarComponent() {
             <TextField
               placeholder="Biaya"
               onChange={(e) => setTotalBiayaDenda(e.target.value)}
-              value={totalBiayaDenda}
+              value={loadingNoticketBiayaDenda ? "Loading..." : totalBiayaDenda}
               disabled={true}
             />
             <button

@@ -5,12 +5,14 @@ import { useSelector } from "react-redux";
 import KendaraanKeluarView from "./KendaraanKeluarView";
 import PengaturanTarifView from "./PengaturanTarifView";
 import AkunPegawaiView from "./AkunPegawaiView";
+import Beranda from "./Beranda";
 function Home() {
   const menuActive = useSelector((state) => state.menu.menuActive);
   return (
     <div className="w-full h-screen flex">
       <NavigationBar />
       <div className="w-full h-full overflow-y-auto py-10 px-20">
+        {menuActive === "beranda" && <Beranda />}
         {menuActive === "kendaraanMasuk" && <KendaraanMasukView />}
         {menuActive === "kendaraanKeluar" && <KendaraanKeluarView />}
         {menuActive === "tarif" && <PengaturanTarifView />}
