@@ -47,19 +47,19 @@ function Login() {
         />
       </div>
       <div className="w-1/2 bg-slate-200 flex flex-col justify-center items-center relative">
-        <div className="w-80 p-5 shadow-lg shadow-blue-300 rounded-xl text-center bg-white black items-center flex flex-col">
-          <div className="p-5 bg-slate-200 w-20 h-20 flex justify-center items-center rounded-full mb-5">
+        <div className="w-80 p-2 shadow-lg shadow-blue-300 rounded-xl text-center bg-white black items-center flex flex-col">
+          <div className="p-2 bg-slate-200 w-20 h-20 flex justify-center items-center rounded-full mb-3">
             <FaIdCardClip className="text-center text-5xl text-blue-400" />
           </div>
 
-          <div className="input-form gap-2 flex flex-col">
+          <div className="input-form gap-1 flex flex-col">
             <TextField
               placeholder="Username"
               className="w-full"
               onChange={(e) => setUsername(e.target.value)}
               value={username}
             />
-            <div className="mb-3 mt-3">
+            <div className="mb-0 mt-2">
               <TextField
                 placeholder="Password"
                 className="mt-5 w-full"
@@ -82,7 +82,7 @@ function Login() {
             {loading ? "Sedang Login..." : "Login Sekarang"}
           </button>
         </div>
-        <div className="w-[28rem] rounded-lg shadow-lg shadow-purple-300 p-5 pb-10 bg-slate-50 mt-10">
+        <div className="w-[28rem] rounded-lg shadow-lg shadow-purple-300 p-2 pb-10 bg-slate-50 mt-10">
           <h1 className="text-center font-semibold my-3 border-b-2 border-slate-300 pb-3 text-slate-600 text-lg">
             Daftar Anggota Kelompok :{" "}
           </h1>
