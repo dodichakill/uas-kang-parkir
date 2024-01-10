@@ -64,7 +64,7 @@ function Beranda() {
           />
           <ItemFeature
             icon={<IoExit />}
-            title={"Kendaraan Masuk"}
+            title={"Kendaraan Keluar"}
             description={
               "Petugas Dapat mencatat kendaraan Keluar dan dapat melihat riwayat kendaraan yang masuk"
             }
