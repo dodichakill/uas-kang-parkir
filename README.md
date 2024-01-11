@@ -1,5 +1,5 @@
 # Projek pengelolaan parkir kendaraan
-## memakai React Vite + vanilla PHP
+## memakai React Vite + vanilla PHP + MySQL
 
 Kelola parkir kendaraan secara dinamis dengan sistem berbasis WEB yang terintegrasi dengan database untuk penyimpanan data jangka panjang.
 Memiliki sistem role untuk membatasi akses pengguna
